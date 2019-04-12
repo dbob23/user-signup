@@ -39,10 +39,20 @@ def welcome():
     if verifypassword != password:
         verifypassword = ""
         password = ""
-        verify_error = "Password does not match. Please try again."
+        verify_error = "Incorrect password. Please try again."
         return render_template("index.html", username=username, email=email, verify_error=verify_error)
 
-    if email  
+    if len(email) == 0: 
+        email_error = ""
+    
+    elif len(email) != 0 and len(email) < 3:
+        email_error = "You have entered an invalid email. Please try again."
+        return render_template("index.html", username= username, email_error=email_error)
+
+    elif len(email) > 20 or email.count("@") != 1 or email.count(".") != 1 or email.count(" ") != 0:
+        email_error = "You have entered an invalid email. Please try again."
+        return render_template("index.html", username= username, email_error=email_error)
+    
 
     if not name_error and not password_error and not verify_error and not email_error:
         return render_template("welcome.html", username=username)
